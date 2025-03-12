@@ -1,0 +1,106 @@
+[gd_scene load_steps=11 format=3 uid="uid://d0ihppgj8lfhx"]
+
+[ext_resource type="Script" uid="uid://bxhtku2dy7iy6" path="res://entites/scripts/character_body_2d.gd" id="1_6g5ty"]
+[ext_resource type="PackedScene" uid="uid://c53do47663d8v" path="res://components/hitbox_component.tscn" id="2_aikl4"]
+[ext_resource type="PackedScene" uid="uid://1t6vtu0lukgl" path="res://components/health_component.tscn" id="3_4wk3r"]
+[ext_resource type="Texture2D" uid="uid://bx54gdekv6ux4" path="res://assets/icon.svg" id="4_b65tw"]
+[ext_resource type="PackedScene" uid="uid://bqrrn6e41dkwo" path="res://components/attack_component.tscn" id="5_aikl4"]
+[ext_resource type="Texture2D" uid="uid://diguuv5a66skn" path="res://assets/godotLogo.png" id="6_4wk3r"]
+[ext_resource type="Script" uid="uid://hg8oaxaesubx" path="res://ui/canvas_layer.gd" id="6_b65tw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6g5ty"]
+size = Vector2(125, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pih8c"]
+size = Vector2(125, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4wk3r"]
+size = Vector2(111, 20)
+
+[node name="player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_6g5ty")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_6g5ty")
+
+[node name="HitboxComponent" parent="CharacterBody2D" node_paths=PackedStringArray("healthComponent") instance=ExtResource("2_aikl4")]
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HitboxComponent"]
+position = Vector2(0.5, -1.5)
+shape = SubResource("RectangleShape2D_pih8c")
+
+[node name="HealthComponent" parent="CharacterBody2D" instance=ExtResource("3_4wk3r")]
+MAX_HEALTH = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("4_b65tw")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(0.7, 0.7)
+position_smoothing_enabled = true
+
+[node name="AttackLeft" parent="CharacterBody2D" instance=ExtResource("5_aikl4")]
+attackTimer = 0.1
+cooldown = 0.3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/AttackLeft"]
+position = Vector2(-119, 0)
+shape = SubResource("RectangleShape2D_4wk3r")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/AttackLeft"]
+position = Vector2(-129, -2)
+scale = Vector2(0.106445, 0.0322266)
+texture = ExtResource("6_4wk3r")
+
+[node name="attackRight" parent="CharacterBody2D" instance=ExtResource("5_aikl4")]
+attackTimer = 0.1
+cooldown = 0.3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/attackRight"]
+position = Vector2(121.5, 2)
+shape = SubResource("RectangleShape2D_4wk3r")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/attackRight"]
+position = Vector2(132.5, 0.999985)
+scale = Vector2(0.106445, 0.0322266)
+texture = ExtResource("6_4wk3r")
+
+[node name="UI" type="CanvasLayer" parent="CharacterBody2D"]
+script = ExtResource("6_b65tw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterBody2D/UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -71.0
+offset_right = 671.0
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="CharacterBody2D/UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_4wk3r")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="CharacterBody2D/UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_4wk3r")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="CharacterBody2D/UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_4wk3r")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="CharacterBody2D/UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_4wk3r")
+expand_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="CharacterBody2D/UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_4wk3r")
+expand_mode = 2

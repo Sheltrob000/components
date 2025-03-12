@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://cxs1venj6ew2x"]
+
+[ext_resource type="Texture2D" uid="uid://bu2fr6cyqs4rp" path="res://assets/pythin.png" id="1_32vi7"]
+[ext_resource type="Script" uid="uid://bamaunkyej0io" path="res://entites/scripts/enemyscript.gd" id="1_fxl1m"]
+[ext_resource type="PackedScene" uid="uid://1t6vtu0lukgl" path="res://components/health_component.tscn" id="3_hs75n"]
+[ext_resource type="PackedScene" uid="uid://c53do47663d8v" path="res://components/hitbox_component.tscn" id="4_ixu7y"]
+[ext_resource type="PackedScene" uid="uid://df6ermipmmjg7" path="res://components/consistint_attack_component.tscn" id="5_hs75n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32vi7"]
+size = Vector2(141, 141)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m75hp"]
+size = Vector2(140, 139)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ixu7y"]
+size = Vector2(155, 153)
+
+[node name="enemy" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_fxl1m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_32vi7")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_32vi7")
+
+[node name="floorRight" type="RayCast2D" parent="CharacterBody2D"]
+position = Vector2(70, 27)
+
+[node name="floorLeft" type="RayCast2D" parent="CharacterBody2D"]
+position = Vector2(-70, 28)
+
+[node name="HealthComponent" parent="CharacterBody2D" instance=ExtResource("3_hs75n")]
+MAX_HEALTH = 20
+
+[node name="HitboxComponent" parent="CharacterBody2D" node_paths=PackedStringArray("healthComponent") instance=ExtResource("4_ixu7y")]
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HitboxComponent"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_m75hp")
+
+[node name="ConsistintAttackComponent" parent="CharacterBody2D" instance=ExtResource("5_hs75n")]
+damage = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/ConsistintAttackComponent"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_ixu7y")
