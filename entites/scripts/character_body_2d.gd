@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-const SPEED = 30000.0
-const JUMP_VELOCITY = -70000.0
-const DASH_VELOCITY = 50000.0
+const SPEED = 700.0
+const JUMP_VELOCITY = -1350.0
+const DASH_VELOCITY = 700.0
+const ACCERLATION = 100
 
 var attackdirection = 1
 
@@ -24,7 +25,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY * delta
+		velocity.y = JUMP_VELOCITY
 		
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y = 0
@@ -39,5 +40,21 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	
-	velocity.x = SPEED * direction * delta
+	velocity.x = move_toward(velocity.x, SPEED * direction, ACCERLATION)
+	if direction == 0:
+		velocity.x = move_toward(velocity.x, 0, ACCERLATION)
+
+	if abs(velocity.x) >= SPEED:
+		pass
+
 	move_and_slide()
+
+
+func _on_hitbox_component_has_been_hit(x, y) -> void:
+
+	var knockbacky = (global_position.y - y) * 10
+	print(knockbacky)
+	velocity.y += knockbacky - 1000
+
+	var knockbackx = (global_position.x - x) * 20
+	velocity.x += knockbackx

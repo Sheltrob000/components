@@ -2,6 +2,7 @@ extends Area2D
 class_name ConsistantAttackComponent
 
 @export var damage := 10
+@export var knockbackForce :=0
 
 
 func _ready() -> void:
@@ -17,4 +18,8 @@ func attack():
 
 
 func _on_area_entered(area:HitboxComponent) -> void:
-	area.damage(damage)
+		var attack = Attack.new()
+		attack.damage = damage
+		attack.knockbackForce = knockbackForce
+		attack.attackposition = Vector2(global_position.x, global_position.y)
+		area.damage(attack)

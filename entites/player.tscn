@@ -28,6 +28,7 @@ shape = SubResource("RectangleShape2D_6g5ty")
 
 [node name="HitboxComponent" parent="CharacterBody2D" node_paths=PackedStringArray("healthComponent") instance=ExtResource("2_aikl4")]
 healthComponent = NodePath("../HealthComponent")
+hitCooldown = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HitboxComponent"]
 position = Vector2(0.5, -1.5)
@@ -104,3 +105,5 @@ expand_mode = 2
 layout_mode = 2
 texture = ExtResource("6_4wk3r")
 expand_mode = 2
+
+[connection signal="hasBeenHit" from="CharacterBody2D/HitboxComponent" to="CharacterBody2D" method="_on_hitbox_component_has_been_hit"]

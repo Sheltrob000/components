@@ -4,6 +4,7 @@ class_name AttackComponent
 @export var damage := 10
 @export var attackTimer := 1.0
 @export var cooldown := 1.0
+@export var knockbackForce :=0
 
 var canAttack := true
 
@@ -22,7 +23,11 @@ func attack():
 		canAttack = false
 
 func _on_area_entered(area: HitboxComponent) -> void:
-	area.damage(damage)
+	var attack = Attack.new()
+	attack.damage = damage
+	attack.knockbackForce = knockbackForce
+	attack.attackposition = Vector2(global_position.x, global_position.y)
+	area.damage(attack)
 
 
 func _on_attack_length_timeout() -> void:
